@@ -1,10 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
+from googlesearch import search
+
 
 # Made by Timbaleek
 
-wikiLink = input("Deutsche Wikipediaseite: ")
+googleSearch = input("Google Suche: ")
+wikiLink = next(search(googleSearch))  # Automatic Google Search URL
 
+# Get the HTML from the URL
 response = requests.get(
     url=wikiLink,
 )
