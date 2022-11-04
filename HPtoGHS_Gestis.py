@@ -4,8 +4,9 @@ from requests_html import HTMLSession
 
 session = HTMLSession()
 
-r = session.get('https://python.org/')
-r.html.render(sleep=5)
+wikiLink = input("Sigma-Aldrich Link: ")
+r = session.get(wikiLink)
+r.html.render(sleep=1)
 soup = BeautifulSoup(r.html.raw_html, "html.parser")
 
 '''from selenium import webdriver
@@ -44,14 +45,17 @@ response = requests.get(
 #print("\\HPStatements{" + title + "}{\\ghspic{exclam}\\\\\\\\}")
 print("{\\begin{itemize}")
 
-print(soup.prettify())
+# print(soup.prettify())
 
 # H
 hs = soup.select(".app-article-view > div:nth-child(2) > div:nth-child(9) > div:nth-child(4) > div:nth-child(1) > table:nth-child(9) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(1)")
-print(hs.text)
+# print(hs)
 
-for h in hs:
-    print("\\item \\ghs{h}{" + h.text + "}")
+hList = list(hs[0].stripped_strings)
+#hsString = hs.get_text(separator='\n', strip=True)
+for h in hList:
+    if (hSeparated[0] == 'H'):
+        hSeparated = h.split(": ")
 
 print("\\end{itemize}}")
 
