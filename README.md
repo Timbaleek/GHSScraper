@@ -1,2 +1,2 @@
 # GHSScraper
-Scrapes GHS data from Sigma Aldrich Website
+Scrapes GHS data from Wikipedia/Sigma Aldrich Website
