@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
+import re
 
 session = HTMLSession()
 
@@ -41,23 +42,41 @@ response = requests.get(
 #fatherH = soup.find(text="H: ").parent
 #hps = list(fatherH.descendants)
 
+hazards_dict = {}
+
 # GHS
 #print("\\HPStatements{" + title + "}{\\ghspic{exclam}\\\\\\\\}")
-print("{\\begin{itemize}")
-
 # print(soup.prettify())
 
 # H
-hs = soup.select(".app-article-view > div:nth-child(2) > div:nth-child(9) > div:nth-child(4) > div:nth-child(1) > table:nth-child(9) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(1)")
+
+hazards = re.findall(
+    "(H[0-9]+[^\:]*?):\s*(.+?)(?=H[0-9]+[^\:]*?:|<\/td>)", str(soup))
+for id, hazard in hazards:
+    hazard = hazard.strip()
+    if hazard.endswith("<br/>"):
+        hazard = hazard[:-5]
+    if hazard.endswith("<br>"):
+        hazard = hazard[:-4]
+    hazard = hazard.replace("<br/>", " ")
+    hazard = hazard.strip()
+    hazards_dict[id] = hazard
+
+print(hazards_dict)
+#hs = soup.select(".app-article-view > div:nth-child(2) > div:nth-child(9) > div:nth-child(4) > div:nth-child(1) > table:nth-child(9) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(1)")
+
 # print(hs)
 
 hList = list(hs[0].stripped_strings)
 #hsString = hs.get_text(separator='\n', strip=True)
-for h in hList:
-    if (hSeparated[0] == 'H'):
-        hSeparated = h.split(": ")
 
-print("\\end{itemize}}")
+for h in hList:
+    if (h[0] == 'H' and h[len(h)-1] == '.'):
+        hSeparated = h.split(": ")
+        print(hSeparated)
+        hazards_dict.update({hSeparated[0]: hSeparated[1]})
+
+print(hazards_dict)
 
 # P
 

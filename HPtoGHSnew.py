@@ -1,17 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
-#from googlesearch import search
+from googlesearch import search
 import json
 
 # Made by Timbaleek
 
-#googleSearch = input("Google Suche: ") + " Sigma-Aldrich"
-# wikiLink = next(search(googleSearch))  # Automatic Google Search URL
+googleSearch = input("Google Suche: ") + " Sigma-Aldrich"
+wikiLink = next(search(googleSearch))  # Automatic Google Search URL
 
-wikilink = input("Sigma-Aldrich Link: ")
+#wikiLink = input("Sigma-Aldrich Link: ")
 
 response = requests.get(
-    url=wikilink, headers={'User-Agent': 'Chrome'}
+    url=wikiLink, headers={'User-Agent': 'Chrome'}
 )
 
 print(response.url)
