@@ -6,33 +6,30 @@ import pyperclip
 
 sg.theme('DarkTeal4')
 
-input_column = [
-    [
-        sg.Frame('search', [[sg.Text('Name: '), sg.InputText(key='-NAME-')],
-                            [sg.Text('CAS registry: '), sg.InputText(key='-CAS-')],
-                            [sg.Text('Formula: '), sg.InputText(key='-FORMULA-')],
-                            [sg.Listbox([], key='-AUTOCOMPLETE-', size=(30, 6))]])
-    ],
-    [
-        sg.Listbox([], key='-MANAGER-', size=(40, 10))
-    ]
-]
+col1 = [[sg.Text('Compound Name: ')],
+        [sg.Text('Compound Structure: ')],
+        [sg.Text('CAS Number: ')]]
 
-output_column = [
-    [
-        sg.Text(key='-PREVIEW-')
-    ],
-    [
-        sg.Button('Copy to Clipboard', key='-WORDCOPY-'),
-        sg.Button('Copy to Clipboard formatted for LaTex', key='-LATEXCOPY-')
-    ]
-]
+col2 = [[sg.InputText(key='-NAME-')],
+        [sg.InputText(key='-STRUCTURE-')],
+        [sg.InputText(key='-CAS-')]]
 
 layout = [
     [
-        sg.Column(input_column),
-        sg.VSeparator(),
-        sg.Column(output_column)
+        sg.Frame('Search', [[sg.Column(col1), sg.Column(col2)]])
+    ],
+    [
+        sg.Listbox([], key='-MANAGER-', size=(67, 15))
+    ],
+    [
+        sg.Checkbox('Sort alphabetically', key='-SORT-'),
+        sg.Checkbox('Preformat empty disposal registry', key='-DISPOSAL-', default=True)
+    ],
+    [
+        sg.Button('Copy to clipboard', key='-WORDCOPY-'),
+        sg.Button('Copy for LaTex', key='-LATEXCOPY-'),
+        sg.Button('Remove compound', key='-REMOVE-'),
+        sg.Button('Clear', key='-CLEAR-')
     ]
 ]
 
