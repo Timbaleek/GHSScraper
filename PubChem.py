@@ -1,6 +1,6 @@
 import requests
 import json
-import pubchempy
+#import pubchempy
 
 
 def get_compound_info(cid):
@@ -13,24 +13,30 @@ def get_compound_info(cid):
 
 
 def get_cid_from_name(name):
-    url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + name + '/cids/JSON'
+    url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + \
+        str(name) + '/cids/JSON'
     r = requests.get(url)
-    return r.json()
+    return r.json().get('IdentifierList').get('CID')[0]
 
 # Get CID from CAS
 
 
 def get_cid_from_cas(cas):
-    url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cas/' + cas + '/cids/JSON'
+    url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cas/' + \
+        str(cas) + '/cids/JSON'
     r = requests.get(url)
-    return r.json()
+    return r.json().get('IdentifierList').get('CAS')[0]
 
 
-def getHandP(name):
-
-    hAndP = [[], []]
+def getHandPfromName(name):
     #name = input("Enter the name of the compound: ")
-    cid = get_cid_from_name(name).get('IdentifierList').get('CID')[0]
+    cid = get_cid_from_name(name)
+
+    return getHandP(cid)
+
+
+def getHandP(cid):
+    hAndP = [[], []]
 
     # Get the data from the API
     r = requests.get(
