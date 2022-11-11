@@ -21,6 +21,7 @@ def get_cid_from_name(name):
 # Get CID from CAS
 
 
+'''
 def get_cid_from_cas(cas):
     url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cas/' + \
         str(cas) + '/cids/JSON'
@@ -28,19 +29,20 @@ def get_cid_from_cas(cas):
     print(r.json())
     return 0  # r.json().get('IdentifierList').get('CAS')[0]
 
-
 get_cid_from_cas('64-17-5')
+'''
 
 
 def get_H_and_P_from_name(name):
-    #name = input("Enter the name of the compound: ")
+    # name = input("Enter the name of the compound: ")
     cid = get_cid_from_name(name)
 
     return get_H_and_P(cid)
 
 
 def get_H_and_P(cid):
-    hAndP = [[], []]
+    hazardCodes = []
+    precautionCodes = []
 
     # Get the data from the API
     r = requests.get(
@@ -60,7 +62,7 @@ def get_H_and_P(cid):
         for h in hazards:
             hString = h['String']
             hString = hString.split(' ')[0].split(':')[0]
-            hAndP[0].append(hString)
+            hazardCodes.append(hString)
             # print(hString)
     except:
         print("No Hazard Statements")
@@ -73,9 +75,9 @@ def get_H_and_P(cid):
 
         for p in precautions:
             p = p.replace('and ', '')
-            hAndP[1].append(p)
+            precautionCodes.append(p)
             # print(p)
     except:
         print("No Precaution Statements")
 
-    return hAndP
+    return hazardCodes, precautionCodes
