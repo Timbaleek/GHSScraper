@@ -25,17 +25,21 @@ def get_cid_from_cas(cas):
     url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cas/' + \
         str(cas) + '/cids/JSON'
     r = requests.get(url)
-    return r.json().get('IdentifierList').get('CAS')[0]
+    print(r.json())
+    return 0  # r.json().get('IdentifierList').get('CAS')[0]
 
 
-def getHAndPfromName(name):
+get_cid_from_cas('64-17-5')
+
+
+def get_H_and_P_from_name(name):
     #name = input("Enter the name of the compound: ")
     cid = get_cid_from_name(name)
 
-    return getHandP(cid)
+    return get_H_and_P(cid)
 
 
-def getHandP(cid):
+def get_H_and_P(cid):
     hAndP = [[], []]
 
     # Get the data from the API

@@ -14,7 +14,7 @@ class Gestis:
 
 cid = PubChem.get_cid_from_name('Ethanol')
 print(cid)
-print(PubChem.getHandP(cid))
+print(PubChem.get_H_and_P_from_name(cid))
 
 #cid = pcp.get_substances('water', 'name')[0].standardized_cid
 #compounds = pcp.get_compounds('water', 'name')
