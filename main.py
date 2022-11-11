@@ -23,12 +23,13 @@ layout = [
     ],
     [
         sg.Checkbox('Sort alphabetically', key='-SORT-'),
-        sg.Checkbox('Preformat empty disposal registry', key='-DISPOSAL-', default=True)
+        sg.Checkbox('Format disposal information', key='-DISPOSAL-', default=True),
+        sg.Checkbox('Pictograms', key='-PICTOGRAM-')
     ],
     [
+        sg.Button('Remove compound', key='-REMOVE-'),
         sg.Button('Copy to clipboard', key='-WORDCOPY-'),
         sg.Button('Copy for LaTex', key='-LATEXCOPY-'),
-        sg.Button('Remove compound', key='-REMOVE-'),
         sg.Button('Clear', key='-CLEAR-')
     ]
 ]

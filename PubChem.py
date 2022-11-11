@@ -28,8 +28,8 @@ def get_cid_from_cas(cas):
     return r.json().get('IdentifierList').get('CAS')[0]
 
 
-def getHAndPfromName(name):
-    #name = input("Enter the name of the compound: ")
+def getHandPfromName(name):
+    # name = input("Enter the name of the compound: ")
     cid = get_cid_from_name(name)
 
     return getHandP(cid)
