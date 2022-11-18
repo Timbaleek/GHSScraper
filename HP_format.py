@@ -1,41 +1,73 @@
 import pandas as pd
 from PubChem import *
-import pubchempy as pcp
+from collections import Iterable
 
 
-def format_for_word(compound_cid_list, compound_name_dict):
+def flatten(codes):
+    rt = []
+    for i in codes:
+        if isinstance(i, list):
+            rt.extend(flatten(i))
+        else:
+            rt.append(i)
+    return rt
 
-    hazards_dict = pd.read_excel('hazards_dict')
-    precautions_dict = pd.read_excel('precautions_dict')
 
-    out_printable_list = []
+def format_for_word(cid, name, sort_alphabetically):
 
-    for cid in compound_cid_list:
-        hazards, precautions = get_H_and_P(cid)
+    hazards_dict = pd.read_excel('hazards_dict.xlsx', index_col=0)
+    precautions_dict = pd.read_excel('precautions_dict.xlsx', index_col=0)
+
+    out = []
+    hazards, precautions = get_H_and_P(cid)
+
+    if sort_alphabetically:
         hazards.sort()
         precautions.sort()
 
-        out_printable_list.append(compound_name_dict[cid])
-        out_printable_list.append([])
-        out_printable_list.append('Hazard Statements')
-        out_printable_list.append([])
+    out.append('Hazard Statements')
+    out.append([])
 
-        for h in hazards:
+    for h in hazards:
+
+        if '+' in h:
             h.split('+')
-            out_printable_list.append((h[0] + ':').ljust(10) + hazards_dict[h[0]])
 
             for i in range(len(h)-1):
-                out_printable_list.append(('+ ' + h[i+1] + ':').ljust(10) + hazards_dict[h[i+1]])
+                h[i+1] = '+' + h[i+1]
 
-        out_printable_list.append([])
-        out_printable_list.append('Precationary Statements')
-        out_printable_list.append([])
+    hazards = flatten(hazards)
 
-        for p in precautions:
+    for h in hazards:
+
+        if '+' in h:
+            h.replace('+', '')
+            out.append((h + ':').ljust(10) + hazards_dict[h])
+            h = '+ ' + h
+        else:
+            out.append((h + ':').ljust(10) + hazards_dict[h])
+
+    out.append([])
+    out.append('Precationary Statements')
+    out.append([])
+
+    for p in precautions:
+
+        if '+' in p:
             p.split('+')
-            out_printable_list.append((p[0] + ':').ljust(10) + precautions_dict[p[0]])
 
             for i in range(len(p) - 1):
-                out_printable_list.append(('+ ' + p[0] + ':').ljust(10) + precautions_dict[p[0]])
+                p[i + 1] = '+' + p[i + 1]
 
-    return out_printable_list
+    precautions = flatten(precautions)
+
+    for p in precautions:
+
+        if '+' in p:
+            p.replace('+', '')
+            out.append((p + ':').ljust(10) + hazards_dict[p])
+            p = '+ ' + p
+        else:
+            out.append((p + ':').ljust(10) + hazards_dict[p])
+
+    return out

@@ -1,7 +1,6 @@
-import pandas as pd
-import numpy as np
-import pubchempy as pcp
 from HP_format import *
 
-for i in range(3):
-    pcp
+name = input('name?\n')
+cid = get_cid_from_name(name)
+
+print('\n'.join(format_for_word(cid, name, False)))

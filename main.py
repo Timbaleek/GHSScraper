@@ -24,12 +24,13 @@ layout = [
     [
         sg.Checkbox('Sort alphabetically', key='-SORT-'),
         sg.Checkbox('Format disposal information', key='-DISPOSAL-', default=True),
-        sg.Checkbox('Pictograms (LaTex)', key='-PICTOGRAM-', default=True)
+        sg.Checkbox('Pictograms', key='-PICTOGRAM-', default=True)
     ],
     [
         sg.Button('Remove compound', key='-REMOVE-'),
         sg.Button('Copy to clipboard', key='-WORDCOPY-'),
         sg.Button('Copy for LaTex', key='-LATEXCOPY-'),
+        sg.Text(''.ljust(21)),
         sg.Button('Clear', key='-CLEAR-')
     ]
 ]
