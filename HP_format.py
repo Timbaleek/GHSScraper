@@ -1,6 +1,5 @@
 import pandas as pd
 from PubChem import *
-from collections import Iterable
 
 
 def flatten(codes):
@@ -30,7 +29,7 @@ def format_for_word(cid, name, sort_alphabetically):
     out.append('Hazard Statements')
     out.append('')
 
-    for h, i in zip(precautions, range(len(hazards))):
+    for h, i in zip(hazards, range(len(hazards))):
 
         if '+' in h:
             hazards[i] = h.split('+')
@@ -60,6 +59,10 @@ def format_for_word(cid, name, sort_alphabetically):
     for p in precautions:
         out.append((p + ':').ljust(10) + precautions_dict['phrase'].loc[p.replace('+ ', '')])
 
+    out.append('')
+    out.append('Disposal: DISPOSAL')
+    out.append('')
+
     return out
 
 
@@ -76,13 +79,14 @@ def format_for_latex(cid, name, sort_alphabetically):
         hazards.sort()
         precautions.sort()
 
-    out.append(r'\subsubsection*{name}')
+    out.append(r'\subsubsection*{' + name + '}')
     out.append('')
     out.append(r'\textbf{Hazard Statements}')
+    out.append('')
     out.append(r'\bigskip')
     out.append('')
 
-    for h, i in zip(precautions, range(len(hazards))):
+    for h, i in zip(hazards, range(len(hazards))):
 
         if '+' in h:
             hazards[i] = h.split('+')
@@ -97,12 +101,13 @@ def format_for_latex(cid, name, sort_alphabetically):
             out.append(r'\ghspic{' + hazards_dict['pictogram'].loc[h.replace('+ ', '')] + r'}')
             pictograms.append(hazards_dict['pictogram'].loc[h.replace('+ ', '')])
 
+    out.append('')
     out.append(r'\begin{description}')
     out.append('')
     out.append(r'\itemsep -1.5mm')
 
     for h in hazards:
-        out.append(r'\item{\textbf{' + (h + ':') + r'}}' + hazards_dict['phrase'].loc[h.replace('+ ', '')])
+        out.append(r'\item{\textbf{' + (h + ':') + r'}}  ' + hazards_dict['phrase'].loc[h.replace('+ ', '')])
 
     out.append('')
     out.append(r'\end{description}')
@@ -125,7 +130,15 @@ def format_for_latex(cid, name, sort_alphabetically):
     precautions = flatten(precautions)
 
     for p in precautions:
-        out.append(r'\item{\textbf{' + (p + ':') + r'}}' + precautions_dict['phrase'].loc[p.replace('+ ', '')])
+        out.append(r'\item{\textbf{' + (p + ':') + r'}}  ' + precautions_dict['phrase'].loc[p.replace('+ ', '')])
+
+    out.append('')
+    out.append(r'\end{description}')
+    out.append('')
+    out.append(r'\bigskip')
+    out.append('')
+    out.append(r'\textbf{Disposal:} DISPOSAL')
+    out.append('')
 
     return out
 
