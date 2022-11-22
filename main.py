@@ -1,5 +1,3 @@
-import numpy as np
-import pandas as pd
 import PySimpleGUI as sg
 import pyperclip
 from HP_format import *
