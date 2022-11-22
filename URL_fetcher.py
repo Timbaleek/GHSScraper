@@ -1,21 +1,17 @@
-import pandas as pd
-import numpy as np
-import pubchempy as pcp
-import PubChem
+from HP_format import *
 
+namelist = []
+cidlist = []
 
-class Gestis:
-    def __init__(self):
-        self.data = pd.read_csv('gestis_data.csv')
+while True:
+    tempname = input('name?\n')
 
-    def name_get_url(self, query):
-        return self.data.loc[self.data['NAME'] == query]
+    namelist.append(tempname)
+    cidlist.append(get_cid_from_name(tempname))
 
+    if input('continue?').upper() == 'N':
+        break
 
-cid = PubChem.get_cid_from_name('Ethanol')
-print(cid)
-print(PubChem.get_H_and_P_from_name(cid))
-
-#cid = pcp.get_substances('water', 'name')[0].standardized_cid
-#compounds = pcp.get_compounds('water', 'name')
-# print(compounds[0].synonyms)
+for name, cid in zip(namelist, cidlist):
+    print('\n'.join(format_for_word(cid, name, False)))
+    print()
