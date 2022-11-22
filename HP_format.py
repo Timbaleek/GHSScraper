@@ -66,7 +66,7 @@ def format_for_word(cid, name, sort_alphabetically):
     return out
 
 
-def format_for_latex(cid, name, sort_alphabetically):
+def format_for_latex(cid, name, include_pictograms, sort_alphabetically):
 
     hazards_dict = pd.read_excel('hazards_dict.xlsx', index_col=0)
     precautions_dict = pd.read_excel('precautions_dict.xlsx', index_col=0)
@@ -82,24 +82,26 @@ def format_for_latex(cid, name, sort_alphabetically):
     out.append(r'\subsubsection*{' + name + '}')
     out.append('')
     out.append(r'\textbf{Hazard Statements}')
-    out.append('')
-    out.append(r'\bigskip')
-    out.append('')
 
-    for h, i in zip(hazards, range(len(hazards))):
+    if include_pictograms:
+        out.append('')
+        out.append(r'\bigskip')
+        out.append('')
 
-        if '+' in h:
-            hazards[i] = h.split('+')
+        for h, i in zip(hazards, range(len(hazards))):
 
-            for j in range(len(hazards[i]) - 1):
-                hazards[i][j + 1] = '+ ' + hazards[i][j + 1]
+            if '+' in h:
+                hazards[i] = h.split('+')
 
-    hazards = flatten(hazards)
+                for j in range(len(hazards[i]) - 1):
+                    hazards[i][j + 1] = '+ ' + hazards[i][j + 1]
 
-    for h in hazards:
-        if not hazards_dict['pictogram'].loc[h.replace('+ ', '')] in pictograms:
-            out.append(r'\ghspic{' + hazards_dict['pictogram'].loc[h.replace('+ ', '')] + r'}')
-            pictograms.append(hazards_dict['pictogram'].loc[h.replace('+ ', '')])
+        hazards = flatten(hazards)
+
+        for h in hazards:
+            if not hazards_dict['pictogram'].loc[h.replace('+ ', '')] in pictograms:
+                out.append(r'\ghspic{' + hazards_dict['pictogram'].loc[h.replace('+ ', '')] + r'}')
+                pictograms.append(hazards_dict['pictogram'].loc[h.replace('+ ', '')])
 
     out.append('')
     out.append(r'\begin{description}')

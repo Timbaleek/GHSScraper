@@ -104,7 +104,7 @@ while True:
         latex_copy = []
 
         for name in input_summary:
-            latex_copy.append(format_for_latex(get_cid_from_name(name), name, values['-SORT-']))
+            latex_copy.append(format_for_latex(get_cid_from_name(name), name, values['-PICTOGRAM-'], values['-SORT-']))
 
         pyperclip.copy('\n'.join(flatten(latex_copy)))
 
