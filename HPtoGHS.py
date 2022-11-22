@@ -10,7 +10,7 @@ wikiLink = next(search(googleSearch))  # Automatic Google Search URL
 
 # Get the HTML from the URL
 response = requests.get(
-    url=wikiLink,
+    url=str(wikiLink),
 )
 soup = BeautifulSoup(response.content, 'html.parser')
 

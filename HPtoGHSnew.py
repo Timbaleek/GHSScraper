@@ -1,4 +1,4 @@
-import requests
+from requests import get
 from bs4 import BeautifulSoup
 from googlesearch import search
 import json
@@ -10,8 +10,9 @@ wikiLink = next(search(googleSearch))  # Automatic Google Search URL
 
 #wikiLink = input("Sigma-Aldrich Link: ")
 
-response = requests.get(
-    url=wikiLink, headers={'User-Agent': 'Chrome'}
+response = get(
+    url=str(wikiLink),
+    headers={'User-Agent': 'Chrome'}
 )
 
 print(response.url)
