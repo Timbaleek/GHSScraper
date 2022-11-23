@@ -34,7 +34,7 @@ layout = [
         sg.Button('Clear', key='-CLEAR-')
     ],
     [
-        sg.ProgressBar(max_value=1000, size=(43, 5), key='-PROGRESSBAR-')
+        sg.ProgressBar(max_value=1000, size=(51, 5), key='-PROGRESSBAR-')
     ]
 ]
 
