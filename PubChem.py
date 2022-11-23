@@ -130,8 +130,3 @@ def to_latex(HandP):
 
     print("\\end{itemize}}")
     print("{}")
-
-
-to_latex_from_name(
-    input("Enter the name of the compound: ")
-)
