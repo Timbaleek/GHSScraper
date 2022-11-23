@@ -2,6 +2,8 @@ import PySimpleGUI as sg
 import pyperclip
 from HP_format import *
 import time
+import os
+import sys
 
 
 sg.theme('DarkTeal4')
@@ -45,6 +47,13 @@ window['-STRUCTURE-'].bind('<Return>', '-ENTER-')
 
 input_summary = []
 
+root_path = sys._MEIPASS
+# this is for pyinstaller to find the path of the h and p dictionaries
+# when in IDE, use 'root_path = os.getcwd()'
+
+hazards_dict = pd.read_excel(os.path.join(root_path, 'hazards_dict.xlsx'), index_col=0)
+precautions_dict = pd.read_excel(os.path.join(root_path, 'precautions_dict.xlsx'), index_col=0)
+
 while True:
     event, values = window.read()
 
@@ -86,7 +95,8 @@ while True:
         word_copy = []
 
         for i, name in enumerate(input_summary):
-            word_copy.append(format_for_word(get_cid_from_name(name), name, values['-SORT-']))
+            word_copy.append(format_for_word(get_cid_from_name(name), name, values['-SORT-'],
+                                             hazards_dict, precautions_dict))
             window['-PROGRESSBAR-'].UpdateBar(int(1000/len(input_summary)*(i+1)))
 
         pyperclip.copy('\n'.join(flatten(word_copy)))
@@ -102,7 +112,8 @@ while True:
         latex_copy = []
 
         for name in input_summary:
-            latex_copy.append(format_for_latex(get_cid_from_name(name), name, values['-PICTOGRAM-'], values['-SORT-']))
+            latex_copy.append(format_for_latex(get_cid_from_name(name), name, values['-PICTOGRAM-'], values['-SORT-'],
+                                               hazards_dict, precautions_dict))
 
         pyperclip.copy('\n'.join(flatten(latex_copy)))
 

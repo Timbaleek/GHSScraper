@@ -85,7 +85,7 @@ def get_H_and_P(cid):
             hazardCodes.append(hString)
             # print(hString)
     except:
-        print("No Hazard Statements")
+        pass
 
     # Precautionary Statements
     try:
@@ -98,7 +98,7 @@ def get_H_and_P(cid):
             precautionCodes.append(p)
             # print(p)
     except:
-        print("No Precaution Statements")
+        pass
 
     return hazardCodes, precautionCodes
 

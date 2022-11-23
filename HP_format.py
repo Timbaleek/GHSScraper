@@ -12,10 +12,7 @@ def flatten(codes):
     return rt
 
 
-def format_for_word(cid, name, sort_alphabetically):
-
-    hazards_dict = pd.read_excel('hazards_dict.xlsx', index_col=0)
-    precautions_dict = pd.read_excel('precautions_dict.xlsx', index_col=0)
+def format_for_word(cid, name, sort_alphabetically, hazards_dict, precautions_dict):
 
     out = []
     hazards, precautions = get_H_and_P(cid)
@@ -74,10 +71,7 @@ def format_for_word(cid, name, sort_alphabetically):
     return out
 
 
-def format_for_latex(cid, name, include_pictograms, sort_alphabetically):
-
-    hazards_dict = pd.read_excel('hazards_dict.xlsx', index_col=0)
-    precautions_dict = pd.read_excel('precautions_dict.xlsx', index_col=0)
+def format_for_latex(cid, name, include_pictograms, sort_alphabetically, hazards_dict, precautions_dict):
 
     out = []
     pictograms = []
