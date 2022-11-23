@@ -19,8 +19,7 @@ def get_cid_from_name(name):
     try:
         return r.json().get('IdentifierList').get('CID')[0]
     except:
-        print("No CID found for " + name)
-        return None
+        return []
 
 # Get CID from CAS
 
